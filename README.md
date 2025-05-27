@@ -11,16 +11,17 @@ This repository contains various microservice-based assignments completed as par
 - **API Gateway Demo:** Routing and filtering with Spring Cloud Gateway
 - **Spring Config Server:** Centralized Configuration Management
 
-## Technologies Used
+ 🔧 Technologies & Tools Used
 
-- Java 17
-- Spring Boot
-- Spring Cloud (Eureka, Config Server, Gateway)
-- Feign Client
-- ELK Stack
-- Actuator & Admin Server
-- Maven
-
+* Java 17
+* Spring Boot
+* Spring Cloud
+* Eureka Server
+* Spring Cloud Config Server & Client
+* Feign Client
+* Resilience4j (Circuit Breaker)
+* Spring Boot Admin Server
+* Spring Boot Actuator
 ---
 
 Each folder contains a separate, independent Spring Boot microservice or tool integration.  
