@@ -1,0 +1,78 @@
+package com.anhee.ms;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.anhee.client.IBillingMsClientComp;
+
+
+@RestController
+@RequestMapping("/shopping-api")
+@RefreshScope
+public class ShoppingOperationMs {
+
+	
+	public ShoppingOperationMs() {
+		super();
+		System.out.println("ShoppingOperationMs.ShoppingOperationMs() 0 param constructor");
+	}
+
+
+
+
+	@Autowired
+	private IBillingMsClientComp client;
+	
+	
+	
+
+	
+	@Value("${db.user}")
+	private String username;
+
+	@Value("${db.password}")
+	private String password;
+	
+	
+	
+	
+	@GetMapping("/purchase")
+	public ResponseEntity<String> doShopping(){
+		
+		System.out.println("Client comp proxy class name::"+client.getClass());
+		String msg="shirt, trousesr items are purchased  ::"+"Username"+username+"password  ::"+password;
+		
+		//invoke target ms endpoint through client comp
+		
+		ResponseEntity<String> resp=client.invokeDoBilling();
+		System.out.println("ShoppingOperationMs.doShopping()****==>  "+resp+"<==***");
+		String result=msg+"..."+resp.getBody();
+		
+		return new ResponseEntity<String>(result,HttpStatus.OK);
+	}
+}
+//
+//
+//
+//
+//
+//--
+//BillingMsClientComp.invokeDoBilling() url ****==>  http://LAPTOP-2SP9MUJP:6061   <==***
+//BillingMsClientComp.invokeDoBilling() urlInfo ****==>  http://localhost:6061/billing-api/bill   <==***
+//BillingMsClientComp.invokeDoBilling() response ****==>  <200 OK OK,Bill Amount::36552,[Content-Type:"text/plain;charset=UTF-8", Content-Length:"18", Date:"Mon, 19 May 2025 10:06:26 GMT", Keep-Alive:"timeout=60", Connection:"keep-alive"]>   <==***
+//ShoppingOperationMs.doShopping()****==>  <200 OK OK,Bill Amount::36552,[Content-Type:"text/plain;charset=UTF-8", Content-Length:"18", Date:"Mon, 19 May 2025 10:06:26 GMT", Keep-Alive:"timeout=60", Connection:"keep-alive"]><==***
+//BillingMsClientComp.invokeDoBilling() url ****==>  http://LAPTOP-2SP9MUJP:6061   <==***
+//BillingMsClientComp.invokeDoBilling() urlInfo ****==>  http://LAPTOP-2SP9MUJP:6061/billing-api/bill   <==***
+//BillingMsClientComp.invokeDoBilling() response ****==>  <200 OK OK,Bill Amount::70256,[Content-Type:"text/plain;charset=UTF-8", Content-Length:"18", Date:"Mon, 19 May 2025 10:06:50 GMT", Keep-Alive:"timeout=60", Connection:"keep-alive"]>   <==***
+//ShoppingOperationMs.doShopping()****==>  <200 OK OK,Bill Amount::70256,[Content-Type:"text/plain;charset=UTF-8", Content-Length:"18", Date:"Mon, 19 May 2025 10:06:50 GMT", Keep-Alive:"timeout=60", Connection:"keep-alive"]><==***
+//2025-05-19T15:40:41.580+05:30  INFO 9924 --- [ShopingMS] [rap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+//BillingMsClientComp.invokeDoBilling() url ****==>  http://LAPTOP-2SP9MUJP:6061   <==***
+//BillingMsClientComp.invokeDoBilling() urlInfo ****==>  http://LAPTOP-2SP9MUJP:6061/billing-api/bill   <==***
+//BillingMsClientComp.invokeDoBilling() response ****==>  <200 OK OK,Bill Amount::37264,[Content-Type:"text/plain;charset=UTF-8", Content-Length:"18", Date:"Mon, 19 May 2025 10:38:28 GMT", Keep-Alive:"timeout=60", Connection:"keep-alive"]>   <==***
+//ShoppingOperationMs.doShopping()****==>  <200 OK OK,Bill Amount::37264,[Content-Type:"text/plain;charset=UTF-8", Content-Length:"18", Date:"Mon, 19 May 2025 10:38:28 GMT", Keep-Alive:"timeout=60", Connection:"keep-alive"]><==***
